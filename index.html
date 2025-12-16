@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fayas Ahamed - Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&family=Audiowide&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+    <style>
+      :root {
+        --bg-color: #f0f2f5;
+        --text-color: #1f2937;
+        --glass-bg: rgba(255, 255, 255, 0.6);
+        --glass-border: rgba(0, 0, 0, 0.1);
+        --glitch-bg: #f0f2f5;
+        --form-input-bg: rgba(229, 231, 235, 0.7);
+        --form-input-border: #d1d5db;
+        --skill-bar-bg-color: rgba(6, 182, 212, 0.15);
+        --skill-bar-border-color: rgba(6, 182, 212, 0.25);
+        --text-glow-color: rgba(0, 100, 200, 0.7);
+        --text-glow-violet-color: rgba(100, 0, 200, 0.7);
+        --box-glow-color: rgba(0, 100, 200, 0.4);
+      }
+      html.dark {
+        --bg-color: #0a0a0f;
+        --text-color: #e0e0e0;
+        --glass-bg: rgba(16, 18, 27, 0.5);
+        --glass-border: rgba(255, 255, 255, 0.1);
+        --glitch-bg: #0a0a0f;
+        --form-input-bg: rgba(10, 10, 15, 0.7);
+        --form-input-border: #374151;
+        --skill-bar-bg-color: rgba(6, 182, 212, 0.1);
+        --skill-bar-border-color: rgba(6, 182, 212, 0.2);
+        --text-glow-color: rgba(0, 192, 255, 0.8);
+        --text-glow-violet-color: rgba(192, 0, 255, 0.8);
+        --box-glow-color: rgba(0, 192, 255, 0.5);
+      }
+      body {
+        font-family: 'Roboto', sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        cursor: none;
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+      a, button {
+        cursor: none;
+      }
+      .font-orbitron {
+        font-family: 'Orbitron', sans-serif;
+      }
+       .font-audiowide {
+        font-family: 'Audiowide', cursive;
+      }
+      .glassmorphism {
+        background: var(--glass-bg);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid var(--glass-border);
+        transition: background-color 0.3s ease, border-color 0.3s ease;
+      }
+      .text-glow {
+        text-shadow: 0 0 8px var(--text-glow-color), 0 0 16px var(--text-glow-color);
+      }
+       .text-glow-violet {
+        text-shadow: 0 0 8px var(--text-glow-violet-color), 0 0 16px var(--text-glow-violet-color);
+      }
+      .box-glow {
+        box-shadow: 0 0 15px var(--box-glow-color), 0 0 30px var(--box-glow-color);
+      }
+      
+      .holographic-text {
+        transform: perspective(800px) rotateX(15deg);
+        text-shadow: 
+          0px 0px 4px rgba(0, 255, 255, 0.5),
+          0px 0px 10px rgba(0, 255, 255, 0.5),
+          0px 0px 20px rgba(0, 255, 255, 0.5),
+          0px 2px 2px #033e5e,
+          0px 4px 4px #042a3e,
+          0px 6px 6px #051d2a;
+        animation: float-holographic 6s ease-in-out infinite;
+      }
+       @keyframes float-holographic {
+          0% { transform: perspective(800px) rotateX(15deg) translateY(0px); }
+          50% { transform: perspective(800px) rotateX(15deg) translateY(-20px); }
+          100% { transform: perspective(800px) rotateX(15deg) translateY(0px); }
+      }
+      @keyframes float-gentle {
+          0% { transform: translateY(0px); }
+          50% { transform: translateY(-10px); }
+          100% { transform: translateY(0px); }
+      }
+
+      /* Custom input field styles */
+      .form-input-container {
+        position: relative;
+      }
+      .form-input {
+        background-color: var(--form-input-bg);
+        border: 1px solid var(--form-input-border);
+        transition: all 0.3s ease;
+      }
+      .form-input:focus {
+        border-color: #06b6d4;
+        box-shadow: 0 0 15px rgba(6, 182, 212, 0.4);
+        outline: none;
+      }
+
+      /* Skill bar styles */
+      .skill-bar-bg {
+        background-color: var(--skill-bar-bg-color);
+        border: 1px solid var(--skill-bar-border-color);
+      }
+      .skill-bar-fill {
+        background: linear-gradient(90deg, #67e8f9, #0891b2);
+        box-shadow: 0 0 10px #06b6d4;
+      }
+
+      /* Icon styles */
+      .icon-social {
+        width: 24px;
+        height: 24px;
+        fill: currentColor;
+      }
+
+      /* Glitch Effect (existing) */
+      .glitch {
+        position: relative;
+        color: var(--text-color);
+      }
+      html.dark .glitch {
+        color: white;
+      }
+      .glitch:before,
+      .glitch:after {
+        content: attr(data-text);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--glitch-bg);
+        overflow: hidden;
+        clip: rect(0, 900px, 0, 0);
+      }
+      .glitch:before {
+        left: 2px;
+        text-shadow: -2px 0 #ff00c1;
+        animation: glitch-anim-1 2s infinite linear alternate-reverse;
+      }
+      .glitch:after {
+        left: -2px;
+        text-shadow: -2px 0 #00fff9, 2px 2px #ff00c1;
+        animation: glitch-anim-2 2s infinite linear alternate-reverse;
+      }
+      @keyframes glitch-anim-1 { 0% { clip: rect(42px, 9999px, 44px, 0); } 100% { clip: rect(39px, 9999px, 95px, 0); } }
+      @keyframes glitch-anim-2 { 0% { clip: rect(78px, 9999px, 35px, 0); } 100% { clip: rect(2px, 9999px, 91px, 0); } }
+
+      /* Button hover shimmer effect */
+      .btn-glow {
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+      }
+      .btn-glow::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+        transition: all 650ms;
+        z-index: 1;
+      }
+      .btn-glow:hover::before {
+        left: 100%;
+      }
+
+      @keyframes grid-pan {
+        0% { background-position: 0 0; }
+        100% { background-position: 300px 300px; }
+      }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "framer-motion": "https://aistudiocdn.com/framer-motion@^12.23.24",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "@google/genai": "https://esm.sh/@google/genai"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
